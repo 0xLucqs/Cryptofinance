@@ -11,28 +11,24 @@ diff -= int(input("Difficulty?"))
 limit = val ** diff
 hash = hex(val ** diff + 1)
 start = time()
-i = 0
-j = 0
-a = []
-con = 0
+times = []
+counter = 0
 nb_iter = 10000
-while con < nb_iter:
+while counter < nb_iter:
     block = urandom(200)
     while int(hash, 16) > limit:
         hash = sha256(urandom(32) + block).hexdigest()
-        if time() - start > 20:
-            i += 1
+        if time() - start > 3:
             print("Moins difficile")
             start = time()
             diff += 1
             limit = val**diff
 
-    j += 1
-    a.append(time() - start)
+    times.append(time() - start)
     start = time()
     hash = hex(limit + 1)
-    con += 1
-a = sorted(a, reverse=True)
-print(kstest(a, 'expon'))  # kolmogorov smrinoff test expliquer
-plt.plot(list(range(nb_iter)), a)
+    counter += 1
+times = sorted(times, reverse=True)
+print(kstest(times, 'expon'))  # kolmogorov smrinoff test expliquer
+plt.plot(list(range(nb_iter)), times)
 plt.show()
